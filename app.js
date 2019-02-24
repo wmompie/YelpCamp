@@ -1,64 +1,61 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
+const express = require('express'),
+  app = express(),
+  bodyParser = require('body-parser'),
+  mongoose = require(`mongoose`);
+
+mongoose.connect(`mongodb://localhost:27017/yelp_camp`, {
+  useNewUrlParser: true
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set(`view engine`, `ejs`);
 
-let campgrounds = [
-  {
-    name: `Salmon Creek`,
-    image: `https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Granite Hill`,
-    image: `https://images.unsplash.com/photo-1525209149972-1d3faa797c3c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Mountain Goat's Rest`,
-    image: `https://images.unsplash.com/photo-1440262206549-8fe2c3b8bf8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Salmon Creek`,
-    image: `https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Granite Hill`,
-    image: `https://images.unsplash.com/photo-1525209149972-1d3faa797c3c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Mountain Goat's Rest`,
-    image: `https://images.unsplash.com/photo-1440262206549-8fe2c3b8bf8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Salmon Creek`,
-    image: `https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Granite Hill`,
-    image: `https://images.unsplash.com/photo-1525209149972-1d3faa797c3c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  },
-  {
-    name: `Mountain Goat's Rest`,
-    image: `https://images.unsplash.com/photo-1440262206549-8fe2c3b8bf8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60`
-  }
-];
+// SCEMA SETUP
+const campgroundSchema = new mongoose.Schema({
+  name: String,
+  image: String
+});
+
+const Campground = mongoose.model(`Campground`, campgroundSchema);
+
+// Campground.create({}, (err, campground) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(`NEWLY CREATED CAMPGROUND: `);
+//     console.log(campground);
+//   }
+// });
 
 app.get(`/`, (req, res) => res.render(`landing`));
 
 app.get(`/campgrounds`, (req, res) => {
-  res.render(`campgrounds`, { campgrounds: campgrounds });
+  // Get all campgrounds from DB
+  Campground.find({}, (err, allCampgrounds) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render(`campgrounds`, { campgrounds: allCampgrounds });
+    }
+  });
 });
 
 app.get(`/campgrounds/new`, (req, res) => res.render(`new.ejs`));
 
 app.post(`/campgrounds`, (req, res) => {
   // get data from form and add to campgrounds array
-  let name = req.body.name;
-  let image = req.body.image;
+  const name = req.body.name;
+  const image = req.body.image;
   const newCampground = { name: name, image: image };
-  campgrounds.push(newCampground);
-  // redirect back to campgrounds page
-  res.redirect(`/campgrounds`);
+  // create a new campground and save to DB
+  Campground.create(newCampground, (err, newlyCreated) => {
+    if (err) {
+      console.log(err);
+    } else {
+      // redirect back to campgrounds page
+      res.redirect(`/campgrounds`);
+    }
+  });
 });
 
 app.listen(3000, () => console.log(`The YelpCamp Server Has Started!`));
