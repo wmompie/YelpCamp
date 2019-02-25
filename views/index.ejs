@@ -6,7 +6,9 @@
       <h1>Welcome To YelpCamp!</h1>
       <p>View our hand-picked campgrounds from all over the world</p>
       <p>
-        <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
+        <a class="btn btn-primary btn-lg" href="/campgrounds/new"
+          >Add New Campground</a
+        >
       </p>
     </div>
   </header>
@@ -15,9 +17,20 @@
     <% campgrounds.forEach(campground => { %>
     <div class="col-md-3 col-sm-6">
       <div class="card">
-        <img class="img-fluid" src="<%= campground.image %>" alt="campground image" />
+        <img
+          class="img-fluid"
+          src="<%= campground.image %>"
+          alt="campground image"
+        />
         <div class="card-body">
           <h6 class="card-text text-center"><%= campground.name %></h6>
+          <p>
+            <a
+              href="/campgrounds/<%= campground._id %>"
+              class="btn btn-primary btn-sm"
+              >More Info</a
+            >
+          </p>
         </div>
       </div>
     </div>
