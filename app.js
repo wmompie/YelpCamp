@@ -2,8 +2,10 @@ const Campground = require('./models/campground'),
   express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  seedDB = require('./seeds');
 
+seedDB();
 mongoose.connect('mongodb://localhost:27017/yelp_camp', {
   useNewUrlParser: true
 });
