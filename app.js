@@ -1,23 +1,15 @@
-const express = require(`express`),
+const Campground = require('./models/campground'),
+  express = require('express'),
   app = express(),
-  bodyParser = require(`body-parser`),
-  mongoose = require(`mongoose`);
+  bodyParser = require('body-parser'),
+  mongoose = require('mongoose');
 
-mongoose.connect(`mongodb://localhost:27017/yelp_camp`, {
+mongoose.connect('mongodb://localhost:27017/yelp_camp', {
   useNewUrlParser: true
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set(`view engine`, `ejs`);
-
-// SCEMA SETUP
-const campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
-
-const Campground = mongoose.model(`Campground`, campgroundSchema);
+app.set('view engine', 'ejs');
 
 // Campground.create(
 //   {
@@ -35,22 +27,22 @@ const Campground = mongoose.model(`Campground`, campgroundSchema);
 //   }
 // );
 
-app.get(`/`, (req, res) => res.render(`landing`));
+app.get('/', (req, res) => res.render('landing'));
 
 // INDEX - show all campgrounds
-app.get(`/campgrounds`, (req, res) => {
+app.get('/campgrounds', (req, res) => {
   // Get all campgrounds from DB
   Campground.find({}, (err, allCampgrounds) => {
     if (err) {
       console.log(err);
     } else {
-      res.render(`index`, { campgrounds: allCampgrounds });
+      res.render('index', { campgrounds: allCampgrounds });
     }
   });
 });
 
 // CREATE - add new campground to DB
-app.post(`/campgrounds`, (req, res) => {
+app.post('/campgrounds', (req, res) => {
   // get data from form and add to campgrounds array
   const name = req.body.name,
     image = req.body.image,
@@ -62,25 +54,27 @@ app.post(`/campgrounds`, (req, res) => {
       console.log(err);
     } else {
       // redirect back to campgrounds page
-      res.redirect(`/campgrounds`);
+      res.redirect('/campgrounds');
     }
   });
 });
 
 // NEW - show form to create new campground
-app.get(`/campgrounds/new`, (req, res) => res.render(`new.ejs`));
+app.get('/campgrounds/new', (req, res) => res.render('new.ejs'));
 
 // SHOW - shows more info about one campgrounds
-app.get(`/campgrounds/:id`, (req, res) => {
+app.get('/campgrounds/:id', (req, res) => {
   // find the campground with provided ID
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err) {
       console.log(err);
     } else {
       // render show template with that campground
-      res.render(`show`, { campground: foundCampground });
+      res.render('show', { campground: foundCampground });
     }
   });
 });
 
-app.listen(3000, () => console.log(`The YelpCamp Server Has Started!`));
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`The YelpCamp Server Has Started on port ${PORT}!`));
