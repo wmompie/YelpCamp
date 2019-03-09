@@ -8,7 +8,7 @@ These instructions will get the node packages installed in your copy so you can 
 
 ### Prerequisites
 
-Node/npm and a Text Editor of your choice.
+Node/npm, MongoDB and a Text Editor of your choice.
 
 ### Installation
 
