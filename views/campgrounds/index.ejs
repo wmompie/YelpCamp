@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 
-<div class="container">
+<div class="container mt-3">
   <header class="jumbotron">
     <div class="container">
       <h1>Welcome To YelpCamp!</h1>
@@ -16,9 +16,9 @@
     <div class="col-md-3 col-sm-6">
       <div class="card">
         <img class="img-fluid" src="<%= campground.image %>" alt="campground image" />
-        <div class="card-body">
-          <h6 class="card-text text-center"><%= campground.name %></h6>
-          <p>
+        <div class="card-body text-center">
+          <h6 class="card-text"><%= campground.name %></h6>
+          <p class="mt-4 mb-0">
             <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary btn-sm">More Info</a>
           </p>
         </div>
