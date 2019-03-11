@@ -6,16 +6,13 @@
     <div class="col-12">
       <form action="/campgrounds/<%= campground._id %>/comments" method="post">
         <div class="form-group">
-          <input type="text" name="text" class="form-control" id="text" aria-describedby="Comment Text" placeholder="text" />
-        </div>
-        <div class="form-group">
           <input
             type="text"
-            name="author"
+            name="text"
             class="form-control"
-            id="author"
-            aria-describedby="Author"
-            placeholder="author"
+            id="text"
+            aria-describedby="Comment Text"
+            placeholder="text"
           />
         </div>
         <div class="form-group">

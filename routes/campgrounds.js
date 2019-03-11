@@ -36,7 +36,7 @@ router.post('/campgrounds', (req, res) => {
 router.get('/campgrounds/new', (req, res) => res.render('campgrounds/new'));
 
 // SHOW - shows more info about one campgrounds
-router.get('/:id', (req, res) => {
+router.get('/campgrounds/:id', (req, res) => {
   // find the campground with provided ID
   Campground.findById(req.params.id)
     .populate('comments')
