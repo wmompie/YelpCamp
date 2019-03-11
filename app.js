@@ -137,6 +137,22 @@ app.post('/register', (req, res) => {
   });
 });
 
+// =============
+// LOGIN ROUTES
+// =============
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post(
+  '/login',
+  passport.authenticate('local', {
+    successRedirect: '/campgrounds',
+    failureRedirect: '/login'
+  }),
+  (req, res) => {}
+);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () =>
