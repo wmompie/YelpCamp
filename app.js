@@ -1,6 +1,6 @@
 const express = require('express'),
   mongoose = require('mongoose'),
-  pasport = require('passport'),
+  passport = require('passport'),
   LocalStrategy = require('passport-local'),
   app = express();
 
@@ -16,6 +16,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 app.set('view engine', 'ejs');
 seedDB();
+
+// PASSPORT CONFIG
+app.use(
+  require('express-session')({
+    secret: `Campgrounds are the best places to rest!`,
+    resave: false,
+    saveUninitialized: false
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => res.render('landing'));
 
@@ -101,9 +115,26 @@ app.post('/campgrounds/:id/comments', (req, res) => {
       });
     }
   });
-  // create new comment
-  // connect new comment to campground
-  // redirect campground show page
+});
+
+// =============
+// AUTH ROUTES
+// =============
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
+app.post('/register', (req, res) => {
+  const newUser = new User({ username: req.body.username });
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.render('register');
+    }
+    passport.authenticate('local')(req, res, () => {
+      res.redirect('/campgrounds');
+    });
+  });
 });
 
 const PORT = process.env.PORT || 5000;
