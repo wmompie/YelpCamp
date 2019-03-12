@@ -25,6 +25,7 @@ npm install
 - [Node.js](https://nodejs.org/en/) - JavaScript runtime tool
 - [Mongoose](https://mongoosejs.com/) - MongoDB object data modeling library
 - [Passport](http://www.passportjs.org/) - Authentication middleware for Node.js
+- [EJS](https://ejs.co/) - Embedded JavaScript templating
 
 ## License
 
