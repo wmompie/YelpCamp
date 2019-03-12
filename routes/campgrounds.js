@@ -51,9 +51,7 @@ router.post('/campgrounds', isLoggedIn, (req, res) => {
 });
 
 // NEW - show form to create new campground
-router.get('/campgrounds/new', isLoggedIn, (req, res) =>
-  res.render('campgrounds/new')
-);
+router.get('/campgrounds/new', isLoggedIn, (req, res) => res.render('campgrounds/new'));
 
 // SHOW - shows more info about one campgrounds
 router.get('/campgrounds/:id', (req, res) => {
@@ -68,6 +66,39 @@ router.get('/campgrounds/:id', (req, res) => {
         res.render('campgrounds/show', { campground: foundCampground });
       }
     });
+});
+
+// EDIT Campground Route
+router.get('/campgrounds/:id/edit', (req, res) => {
+  Campground.findById(req.params.id, (err, foundCampground) => {
+    if (err) {
+      res.redirect('/campgrounds');
+    } else {
+      res.render('campgrounds/edit', { campground: foundCampground });
+    }
+  });
+});
+
+// UPDATE Campground Route
+router.put('/campgrounds/:id', (req, res) => {
+  Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
+    if (err) {
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect(`/campgrounds/${updatedCampground._id}`);
+    }
+  });
+});
+
+// DESTROY Campground Route
+router.delete('/campgrounds/:id', (req, res) => {
+  Campground.findByIdAndRemove(req.params.id, err => {
+    if (err) {
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect('/campgrounds');
+    }
+  });
 });
 
 module.exports = router;

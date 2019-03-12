@@ -1,4 +1,5 @@
 const express = require('express'),
+  methodOverride = require('method-override'),
   mongoose = require('mongoose'),
   passport = require('passport'),
   LocalStrategy = require('passport-local'),
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://localhost:27017/yelp_camp', {
 });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 // seedDB(); // seed the database
 
