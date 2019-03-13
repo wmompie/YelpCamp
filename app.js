@@ -1,6 +1,7 @@
 const express = require('express'),
   methodOverride = require('method-override'),
   mongoose = require('mongoose'),
+  flash = require('connect-flash'),
   passport = require('passport'),
   LocalStrategy = require('passport-local'),
   app = express();
@@ -20,6 +21,7 @@ mongoose.connect('mongodb://localhost:27017/yelp_camp', {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride('_method'));
+app.use(flash());
 app.set('view engine', 'ejs');
 // seedDB(); // seed the database
 
@@ -39,6 +41,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
   next();
 });
 
@@ -48,6 +52,4 @@ app.use(commentRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () =>
-  console.log(`The YelpCamp Server Has Started on port ${PORT}!`)
-);
+app.listen(PORT, () => console.log(`The YelpCamp Server Has Started on port ${PORT}!`));
