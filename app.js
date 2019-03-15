@@ -6,9 +6,7 @@ const express = require('express'),
   LocalStrategy = require('passport-local'),
   app = express();
 
-const Campground = require('./models/campground'),
-  Comment = require('./models/comment'),
-  User = require('./models/user'),
+const User = require('./models/user'),
   seedDB = require('./seeds');
 
 const commentRoutes = require('./routes/comments'),
