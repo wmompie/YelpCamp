@@ -20,6 +20,7 @@ router.get('/campgrounds', (req, res) => {
 router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
   // get data from form and add to campgrounds array
   const name = req.body.name,
+    price = req.body.price,
     image = req.body.image,
     desc = req.body.description,
     author = {
@@ -28,6 +29,7 @@ router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
     },
     newCampground = {
       name,
+      price,
       image,
       description: desc,
       author
@@ -38,7 +40,7 @@ router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
       req.flash('error', err.message);
       res.redirect('back');
     } else {
-      req.flash('success', `Congrats. Your campground ${newlyCreated.name} was successfully created`);
+      req.flash('success', `Your campground ${newlyCreated.name} was successfully created`);
       res.redirect('/campgrounds');
     }
   });
