@@ -13,8 +13,8 @@
 
   <div class="row">
     <% campgrounds.forEach(campground => { %>
-    <div class="col-md-3 col-sm-6">
-      <div class="card">
+    <div class="col-md-3 col-sm-6 mt-3">
+      <div class="card camp-card">
         <img class="img-fluid" src="<%= campground.image %>" alt="campground image" />
         <div class="card-body text-center">
           <h6 class="card-text"><%= campground.name %></h6>

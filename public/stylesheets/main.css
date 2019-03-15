@@ -1,3 +1,24 @@
 .delete-form {
   display: inline;
 }
+
+.camp-card::before,
+.camp-card::after {
+  content: '';
+  position: absolute;
+  width: 185px;
+  height: 26px;
+  bottom: calc(-1 * 26px);
+  background: url(https://static.parastorage.com/services/skins/2.1229.80/images/wysiwyg/core/themes/base/liftedshadow_medium.png)
+    no-repeat;
+}
+
+.camp-card::before {
+  left: -25px;
+  background-position: 0 0;
+}
+
+.camp-card::after {
+  right: -25px;
+  background-position: 100% 0;
+}
