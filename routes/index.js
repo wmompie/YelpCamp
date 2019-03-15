@@ -41,8 +41,7 @@ router.post(
   passport.authenticate('local', {
     successRedirect: '/campgrounds',
     failureRedirect: '/login'
-  }),
-  (req, res) => {}
+  })
 );
 
 // =============

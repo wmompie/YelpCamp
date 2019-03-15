@@ -8,7 +8,8 @@ router.get('/campgrounds', (req, res) => {
   // Get all campgrounds from DB
   Campground.find({}, (err, allCampgrounds) => {
     if (err) {
-      console.log(err);
+      req.flash('error', err.message);
+      res.redirect('back');
     } else {
       res.render('campgrounds/index', { campgrounds: allCampgrounds });
     }
@@ -34,10 +35,10 @@ router.post('/campgrounds', middleware.isLoggedIn, (req, res) => {
   // create a new campground and save to DB
   Campground.create(newCampground, (err, newlyCreated) => {
     if (err) {
-      console.log(err);
+      req.flash('error', err.message);
+      res.redirect('back');
     } else {
-      // redirect back to campgrounds page
-      console.log(newlyCreated);
+      req.flash('success', `Congrats. Your campground ${newlyCreated.name} was successfully created`);
       res.redirect('/campgrounds');
     }
   });
@@ -52,8 +53,9 @@ router.get('/campgrounds/:id', (req, res) => {
   Campground.findById(req.params.id)
     .populate('comments')
     .exec((err, foundCampground) => {
-      if (err) {
-        console.log(err);
+      if (err || !foundCampground) {
+        req.flash('error', `Campground not found`);
+        res.redirect('back');
       } else {
         // render show template with that campground
         res.render('campgrounds/show', { campground: foundCampground });
