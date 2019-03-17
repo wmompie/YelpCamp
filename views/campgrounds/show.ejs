@@ -15,7 +15,7 @@
         <img class="img-fluid" src="<%= campground.image %>" alt="campground image" />
         <div class="card-body mb-4">
           <h4 class="float-right">$<%= campground.price %>/night</h4>
-          <h4 class="card-title"><a href="/"><%= campground.name %></a></h4>
+          <h4 class="card-title"><a href="<%= campground.image %>" target="_blank"><%= campground.name %></a></h4>
           <p class="card-text pt-1"><%= campground.description %></p>
           <p class="float-left">
             <em>Submitted By <%= campground.author.username %></em>
