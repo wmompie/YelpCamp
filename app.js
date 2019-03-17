@@ -13,12 +13,15 @@ const commentRoutes = require('./routes/comments'),
   campgroundRoutes = require('./routes/campgrounds'),
   indexRoutes = require('./routes/index');
 
-// const url = process.env.DATABASEURL || ('mongodb://localhost:27017/yelp_camp', {useNewUrlParser: true});
-// mongoose.connect(url);
+// DB Config
+const db = require('./config/keys').mongoURI;
 
-mongoose.connect('mongodb://localhost:27017/yelp_camp', {
-  useNewUrlParser: true
-});
+// onnect to MongoDB
+mongoose
+  .connect(db)
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride('_method'));
