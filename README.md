@@ -1,4 +1,4 @@
-# YelpCamp Project
+# YelpCamp Clone Project
 
 A Yelp-like clone for campgrounds, campsites and outdoor activities. Can create campgrounds, leave photos, leave comments, log in, and includes authentication and authorization.
 
